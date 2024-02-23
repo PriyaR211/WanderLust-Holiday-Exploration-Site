@@ -1,0 +1,161 @@
+<% layout("./layouts/boilerplate.ejs") %>
+
+<style>
+
+    #filters{
+        display: flex;
+        align-items: center;
+    }
+
+    .filter{
+        margin-top: 19px;
+        margin-right: 42px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 0.7;
+    }
+
+    #filters{
+        margin-left: 17px;
+    }
+
+    .filter:hover{
+        opacity: 1;
+        cursor : pointer;
+    }
+
+    .filter p{
+        font-size: .8rem;
+    }
+
+    .tax-info{
+        display: none;
+    }
+    .card-body .price{
+        /* border:2px solid red; */
+        display: block;
+    }
+
+    .toggle-bar{
+        border:1px solid #c8c5c5;
+        border-radius: 12px;
+        margin-left: 20px;
+    }
+    .inner-toggle-box{
+        padding: 8px;
+    }
+    #filters{
+        /* border:2px solid red; */
+        display: flex;
+        flex-wrap: wrap;
+        
+    }
+    @media screen and (max-width: 480px) {
+            .filter{
+                /* background-color: lightgreen; */
+                display: none;
+            }
+            .short{
+                display: inline;
+            }
+        }
+
+    @media screen and (max-width: 777px) {    
+        .toggle-bar{
+            margin-bottom: 20px;
+            margin-left: 0px;
+        }
+    }
+
+</style>
+
+<body>
+    
+    <div id="filters">
+        <div class="filter first short">
+            <i class="fa-solid fa-bed"></i>            
+            <p>Rooms</p>
+        </div>
+        <div class="filter short">
+            <i class="fa-solid fa-mountain-city"></i>            
+            <p>Iconic Cities</p>
+        </div>
+        <div class="filter short">
+            <i class="fa-solid fa-mountain"></i>           
+            <p>Mountains</p>
+        </div>
+        <div class="filter">
+            <i class="fa-brands fa-fort-awesome"></i>
+            <p>Castles</p>
+        </div>
+        <div class="filter">
+            <i class="fa-solid fa-person-swimming"></i>          
+            <p>Amazing Pools</p>
+        </div>
+        <div class="filter">
+            <i class="fa-solid fa-tractor"></i>           
+            <p>Farms</p>
+        </div>
+        <div class="filter">
+            <i class="fa-solid fa-sailboat"></i>        
+            <p>Boats</p>
+        </div>
+        <div class="filter">
+            <i class="fa-solid fa-umbrella-beach"></i>   
+            <p>Beach</p>
+        </div>
+        <div class="filter">
+            <i class="fa-solid fa-igloo"></i>      
+            <p>Domes</p>
+        </div>
+
+        <div class="form-check-reverse form-switch toggle-bar">
+            <div class="inner-toggle-box">
+            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+            <label class="form-check-label" for="flexSwitchCheckDefault">Display Total after Tax</label>
+        </div>
+        </div>
+
+    </div>
+   
+    <div class="row row-cols-lg-3  row-cols-md-3 row-cols-sm-2 ">
+        <% for(let list of allListings){ %>
+            <a href="/listings/<%=list._id%>">
+                <div class="card card-listing" style="width: 21rem;">
+                    <img src="<%=list.image.url%>" class="card-img-top" alt="card-image" style="height:20rem">
+                    <div class="card-img-overlay"></div>
+                <div class="card-body">
+                    <p><%=list.title %></p>
+                    <p class="price">&#8377 <%= list.price.toLocaleString("en-IN") %> / night </p>
+                    <i class="tax-info"> &#8377 <%= (list.price+(list.price*.2)).toLocaleString("en-IN") %> / night </i>
+                </div>
+            </div>
+            </a>
+        <% } %>
+            
+    </div>
+
+
+</body>
+
+<!-- Tax Switch Toggling  -->
+<script>
+    let taxSwitch = document.getElementById("flexSwitchCheckDefault");
+    taxSwitch.addEventListener("click", ()=>{
+        let taxInfo = document.getElementsByClassName("tax-info");
+        let priceColl = document.getElementsByClassName("price")
+        for(info of taxInfo){
+            if(info.style.display != "inline"){
+                info.style.display = "inline";
+            }
+            else{
+                info.style.display = "none";
+            }
+        }
+
+    })
+</script>
+
+
